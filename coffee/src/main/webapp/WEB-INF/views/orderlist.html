@@ -1,0 +1,72 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+<head th:replace="imports/template :: site-head">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+</head>
+<body>
+	<header th:replace="imports/template :: site-header" />
+	<div class="container text-center" style="min-height: 600px">
+
+		<div class="col-xs-4 col-xs-offset-4">
+			<form th:object="${orderDetails}" th:action="@{/order/confirm}">
+				<div class="form-group">
+					<label for="fullname" th:text="#{fullname}"></label> <input
+						class="form-control" id="fullname" th:field="*{fullName}"
+						type="text">
+				</div>
+				<div class="form-group">
+					<label for="address" th:text="#{adress}"></label> <input
+						id="address" th:field="*{address}" class="form-control"
+						type="text">
+				</div>
+				<input type="submit" th:value="#{order.submit}"
+					class="btn form-control btn-success">
+				<div class="alert alert-danger" th:if="${#fields.hasErrors()}">
+					<p th:each="error:${#fields.detailedErrors()}"
+						th:text="${error.message}"></p>
+				</div>
+			</form>
+
+			<table class="table table-bordered table-striped">
+				<thead>
+					<tr>
+						<td th:text="#{coffeename}">Название</td>
+						<td th:text="#{coffeeprice}">Цена</td>
+						<td th:text="#{coffeeprice}">Количество</td>
+						<td th:text="#{coffeesumm}">Всего</td>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="coffeeType:${orderDetails.coffeeList}">
+						<td th:text="${coffeeType.name}">
+						<td th:text="${coffeeType.price}">
+						<td th:text="${coffeeType.quantity}">
+						<td th:text="${coffeeType.priceSumm}">
+					</tr>
+					<tr>
+						<td colspan="2"></td>
+						<td th:text="#{summ}"></td>
+						<td th:text="${orderDetails.summWithoutDel}"></td>
+					</tr>
+					<tr>
+						<td colspan="2"></td>
+						<td th:text="#{delivery}"></td>
+						<td th:text="${orderDetails.deliveryPrice}"></td>
+					</tr>
+					<tr>
+						<td colspan="2"></td>
+						<td th:text="#{forpayment}"></td>
+						<td th:text="${orderDetails.summWithDelivery}"></td>
+					</tr>
+
+				</tbody>
+			</table>
+		</div>
+
+	</div>
+	<footer th:replace="imports/template :: site-footer" />
+	<script th:src="MainValidator.js"></script>
+</body>
+</html>

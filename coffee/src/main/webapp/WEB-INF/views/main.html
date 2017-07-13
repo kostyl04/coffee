@@ -1,0 +1,55 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+<head th:replace="imports/template :: site-head">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+</head>
+<body>
+	<header th:replace="imports/template :: site-header" />
+	<div class="container text-center" style="min-height: 600px">
+
+
+		<form th:attr="data-empty-select-error=#{selectsmth}" id="orderForm"
+			th:object="${orderDetails}" th:action="@{/order}" th:method="POST">
+			<div class="col-xs-8 col-xs-offset-2">
+				<table class="table table-bordered table-striped">
+					<thead>
+						<tr>
+							<td th:text="#{coffee.pick}">Выбрать</td>
+							<td th:text="#{coffeename}">Название</td>
+							<td th:text="#{coffeeprice}">Цена</td>
+							<td th:text="#{coffeecount}">Количество</td>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="coffeeType,iter:*{coffeeList}">
+							<td><input id="selectCoffeeType" type="checkbox"
+								th:field="*{coffeeList[__${iter.index}__].selected}"></td>
+							<td><p th:text="${coffeeType.name}"></p>
+								<!--  <input type="text"
+								th:field="*{coffeeList[__${iter.index}__].name}" hidden="true">--></td>
+							<td><p th:text="${coffeeType.price}"></p>
+								<!--  <input type="text"
+								th:field="*{coffeeList[__${iter.index}__].price}" hidden="true">--></td>
+							<td><input type="number"
+								th:field="*{coffeeList[__${iter.index}__].quantity}" min="0"></td>
+						</tr>
+						<tr class="danger" th:if="${#fields.hasErrors()}">
+							<td colspan="4" th:each="error:${#fields.detailedErrors()}"
+								th:text="${error.message}"></td>
+						</tr>
+						<tr>
+							<td colspan="4"><input class="btn btn-success" id="submit"
+								type="submit" th:value="#{order}"></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</form>
+	</div>
+
+	<footer th:replace="imports/template :: site-footer" />
+	<script th:src="MainValidator.js"></script>
+</body>
+</html>
