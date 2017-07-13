@@ -67,8 +67,8 @@ public class MainController {
 			return mav;
 		}
 		service.mergeOrder(orderDetails);
-		status.setComplete();
-		request.removeAttribute("orderDetails", WebRequest.SCOPE_SESSION);
+		//status.setComplete();
+		//request.removeAttribute("orderDetails", WebRequest.SCOPE_SESSION);
 		
 		return new ModelAndView("confirm");
 	}
